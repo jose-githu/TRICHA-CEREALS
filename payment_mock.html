@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><title>Payment Mock</title><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{font-family:Arial;padding:12px;background:#f7f7f7}.card{background:#fff;padding:12px;border-radius:8px;margin-bottom:10px}label{display:block;margin-top:8px}</style></head><body>
+<h2>Payment Mock</h2>
+<div class="card">
+  <h3>M-PESA</h3>
+  <label>Phone number<input id="mpesa_phone" placeholder="07XXXXXXXX" /></label>
+  <label>Amount<input id="mpesa_amount" /></label>
+  <button onclick="mpesa()">Simulate STK Push</button>
+</div>
+
+<div class="card">
+  <h3>Airtel Money</h3>
+  <label>Phone number<input id="air_phone" placeholder="07XXXXXXXX" /></label>
+  <label>Amount<input id="air_amount" /></label>
+  <button onclick="airtel()">Simulate Airtel</button>
+</div>
+
+<script>
+function mpesa(){
+  alert('Simulated M-PESA STK push to ' + document.getElementById('mpesa_phone').value + ' for KES ' + document.getElementById('mpesa_amount').value);
+}
+function airtel(){
+  alert('Simulated Airtel payment to ' + document.getElementById('air_phone').value + ' for KES ' + document.getElementById('air_amount').value);
+}
+</script>
+</body></html>
