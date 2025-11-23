@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Tricha Cereals</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🌾 Tricha Cereals</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html" class="active">Products</a>
+            <a href="contact.html">Contact</a>
+            <a href="checkout.html" class="cart-link">🛒 Cart (<span id="cartCount">0</span>)</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="page-header">
+        <h1>Our Products</h1>
+    </div>
+
+    <!-- Categories -->
+    <div class="container">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterCategory('all')">All</button>
+            <button class="cat-btn" onclick="filterCategory('food')">Food</button>
+            <button class="cat-btn" onclick="filterCategory('laundry')">Laundry</button>
+            <button class="cat-btn" onclick="filterCategory('beauty')">Beauty</button>
+            <button class="cat-btn" onclick="filterCategory('household')">Household</button>
+        </div>
+
+        <!-- Products -->
+        <div class="products" id="products"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025 Tricha Cereals. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Maize Flour 2kg", price: 180, cat: "food", img: "https://via.placeholder.com/250/4CAF50/fff?text=Maize" },
+            { id: 2, name: "Rice 2kg", price: 250, cat: "food", img: "https://via.placeholder.com/250/8BC34A/fff?text=Rice" },
+            { id: 3, name: "Cooking Oil 1L", price: 420, cat: "food", img: "https://via.placeholder.com/250/FFC107/fff?text=Oil" },
+            { id: 4, name: "Ariel Detergent 500g", price: 120, cat: "laundry", img: "https://via.placeholder.com/250/2196F3/fff?text=Ariel" },
+            { id: 5, name: "Bar Soap", price: 40, cat: "laundry", img: "https://via.placeholder.com/250/03A9F4/fff?text=Soap" },
+            { id: 6, name: "Body Lotion 250ml", price: 250, cat: "beauty", img: "https://via.placeholder.com/250/E91E63/fff?text=Lotion" },
+            { id: 7, name: "Face Cream", price: 300, cat: "beauty", img: "https://via.placeholder.com/250/F06292/fff?text=Cream" },
+            { id: 8, name: "Tissue Pack", price: 60, cat: "household", img: "https://via.placeholder.com/250/9C27B0/fff?text=Tissue" },
+            { id: 9, name: "Plate Set", price: 620, cat: "household", img: "https://via.placeholder.com/250/673AB7/fff?text=Plates" }
+        ];
+
+        let currentCat = 'all';
+
+        function showProducts() {
+            const filtered = currentCat === 'all' ? products : products.filter(p => p.cat === currentCat);
+            const html = filtered.map(p => `
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <h3>${p.name}</h3>
+                    <p class="price">KES ${p.price}</p>
+                    <button class="btn" onclick="addCart(${p.id})">Add to Cart</button>
+                </div>
+            `).join('');
+            document.getElementById('products').innerHTML = html;
+        }
+
+        function filterCategory(cat) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            showProducts();
+        }
+
+        function addCart(id) {
+            const product = products.find(p => p.id === id);
+            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            updateCount();
+            event.target.textContent = 'Added!';
+            setTimeout(() => event.target.textContent = 'Add to Cart', 1000);
+        }
+
+        function updateCount() {
+            const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        showProducts();
+        updateCount();
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Tricha Cereals</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">🌾 Tricha Cereals</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="page-header">
+        <h1>Your Cart</h1>
+    </div>
+
+    <div class="container">
+        <div id="cartItems"></div>
+        
+        <div class="cart-summary">
+            <h2>Order Summary</h2>
+            <p>Subtotal: KES <span id="subtotal">0</span></p>
+            <p>Delivery: KES <span>50</span></p>
+            <h3>Total: KES <span id="total">0</span></h3>
+            <button class="btn-large" onclick="checkout()">Order via WhatsApp</button>
+            <a href="products.html" class="btn-secondary">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025 Tricha Cereals. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        function loadCart() {
+            const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            const el = document.getElementById('cartItems');
+            const delivery = 50;
+
+            if (cart.length === 0) {
+                el.innerHTML = '<div class="empty"><p>Your cart is empty</p><a href="products.html" class="btn">Shop Now</a></div>';
+                document.getElementById('subtotal').textContent = '0';
+                document.getElementById('total').textContent = delivery;
+                return;
+            }
+
+            let subtotal = 0;
+            el.innerHTML = cart.map((item, i) => {
+                const total = item.price * item.qty;
+                subtotal += total;
+                return `
+                    <div class="cart-item">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="item-info">
+                            <h3>${item.name}</h3>
+                            <p>KES ${item.price}</p>
+                        </div>
+                        <div class="qty-control">
+                            <button onclick="changeQty(${i}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button onclick="changeQty(${i}, 1)">+</button>
+                        </div>
+                        <div class="item-total">
+                            <p>KES ${total}</p>
+                            <button onclick="removeItem(${i})" class="remove">Remove</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('subtotal').textContent = subtotal;
+            document.getElementById('total').textContent = subtotal + delivery;
+        }
+
+        function changeQty(index, change) {
+            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            cart[index].qty += change;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            cart.splice(index, 1);
+            sessionStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function checkout() {
+            const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('Cart is empty!');
+                return;
+            }
+
+            let msg = 'Hello Tricha Cereals, I want to order:%0A%0A';
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const total = item.price * item.qty;
+                msg += `${item.name} x${item.qty} = KES ${total}%0A`;
+                subtotal += total;
+            });
+
+            const delivery = 50;
+            msg += `%0ADelivery: KES ${delivery}%0A`;
+            msg += `*Total: KES ${subtotal + delivery}*`;
+
+            window.open('https://wa.me/254700000000?text=' + msg, '_blank');
+        }
+
+        loadCart();
+    </script>
+</body>
+</html>
