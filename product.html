@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product</title><meta name='viewport' content='width=device-width, initial-scale=1'><style>
+        body {
+            font-family: Arial;
+            padding: 12px;
+            background: #f7f7f7
+        }
+
+        .card {
+            background: #fff;
+            padding: 12px;
+            border-radius: 8px
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div id='product' class='card'></div>
+    <a href='index.html'>Back</a>
+    <script>
+        const id = parseInt(getQueryParam('id') || '0');
+        const p = catalog.find(x => x.id === id);
+
+        if (p) {
+            document.getElementById('product').innerHTML = `
+            <img src='${p.img}' width='100%'>
+            <h2>${p.name}</h2>
+            <div>KES ${p.price}</div>
+            <p>Simple product description for demo purposes.</p>
+            <button onclick="addToCart(${p.id})">Add to cart</button>
+            <button onclick="checkoutPayment()">Payment Mock</button>
+            `;
+        } else {
+            document.getElementById('product').innerHTML = '<h3>Product not found</h3>';
+        }
+    </script>
+    <script src="script.js"></script>
+
+
+</body>
+</html>

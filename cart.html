@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart</title><meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <h2>Your Cart</h2>
+    <div id="cartList" class="card"></div>
+    <h3>Total: KES <span id="total">0</span></h3>
+    <button onclick="checkoutWhatsApp()">Checkout on WhatsApp</button>
+    <button onclick="openPaymentMock()">Payment Mock</button>
+    <br><br><a href="index.html">Back</a>
+    <script>
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const el = document.getElementById('cartList');
+            el.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((it, idx) => {
+                // Added quantity display for better interaction
+                const itemTotal = it.price * (it.quantity || 1);
+                el.innerHTML += `
+                <div>
+                ${it.name} x ${it.quantity || 1} - KES ${itemTotal}
+                <button onclick="removeCartItem(${idx})">Remove</button>
+                </div>`;
+                total += itemTotal;
+            });
+
+            document.getElementById('total').innerText = total;
+        }
+
+        function checkoutWhatsApp() {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('Cart empty'); return;
+            }
+
+            let text = 'Hello Trichas, I want to order:%0A';
+            let total = 0;
+
+            cart.forEach(it => {
+                const itemTotal = it.price * (it.quantity || 1);
+                text += `- ${it.name} x ${it.quantity || 1} (${itemTotal} KES)%0A`;
+                total += itemTotal;
+            });
+
+            text += '%0A*Total: ' + total + ' KES*';
+            window.location.href = 'https://wa.me/254700000000?text=' + text;
+        }
+
+        // Global functions (like openPaymentMock) are already in script.js
+
+        loadCart(); // Initial call to load the cart display
+    </script>
+    <script src="script.js"></script>
+
+
+</body>
+</html>

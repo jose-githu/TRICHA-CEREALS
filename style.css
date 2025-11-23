@@ -1,0 +1,120 @@
+/* style.css */
+
+/* --- General Reset & Typography --- */
+body {
+font-family: 'Arial', sans-serif;
+padding: 12px;
+background-color: #f0f2f5; /* Light, modern background */
+color: #333;
+margin: 0;
+}
+
+/* --- Layout and Structure --- */
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 12px;
+}
+
+/* --- Card Component (Product/Category Display) --- */
+.card {
+background: #fff;
+padding: 16px; /* Increased padding */
+border-radius: 12px; /* Smoother corners */
+margin-bottom: 16px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+transition: transform 0.2s; /* Hover effect transition */
+}
+
+.card:hover {
+transform: translateY(-3px); /* Subtle lift on hover */
+}
+
+/* --- Images --- */
+img {
+border-radius: 8px; /* Matched to card corners */
+width: 100%;
+height: auto;
+object-fit: cover;
+margin-bottom: 10px;
+}
+
+/* --- Headings and Text --- */
+h2 {
+color: #2c3e50;
+border-bottom: 2px solid #e74c3c; /* Accent color under main headings */
+padding-bottom: 8px;
+margin-bottom: 16px;
+}
+
+h3 {
+margin-top: 0;
+font-size: 1.1em;
+color: #34495e;
+}
+
+/* --- Buttons (Crucial for interaction) --- */
+button, .button-link {
+background-color: #3498db; /* Blue for primary actions */
+color: white;
+padding: 10px 15px;
+border: none;
+border-radius: 6px;
+cursor: pointer;
+font-weight: bold;
+margin-top: 8px;
+transition: background-color 0.2s, transform 0.1s;
+text-decoration: none; /* For link styled as button */
+display: inline-block;
+text-align: center;
+}
+
+button:hover, .button-link:hover {
+background-color: #2980b9;
+}
+
+button:active, .button-link:active {
+transform: scale(0.98);
+}
+
+/* --- Secondary Buttons/Links (e.g., 'Details', 'Back') --- */
+a:not(button) {
+color: #e74c3c; /* Red accent for links */
+text-decoration: none;
+margin-left: 10px;
+transition: color 0.2s;
+}
+
+a:hover:not(button) {
+color: #c0392b;
+text-decoration: underline;
+}
+
+/* --- Input Fields (for Payment Mock) --- */
+label {
+display: block;
+margin-top: 12px;
+font-weight: bold;
+color: #555;
+}
+
+input {
+width: 90%;
+padding: 10px;
+margin-top: 4px;
+border: 1px solid #ccc;
+border-radius: 6px;
+}
+
+/* --- Cart Specific Styles --- */
+#cartList div {
+padding: 8px 0;
+border-bottom: 1px dashed #eee;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+#cartList div:last-child {
+border-bottom: none;
+}
