@@ -14,20 +14,20 @@
             <a href="index.html">Home</a>
             <a href="products.html" class="active">Products</a>
             <a href="contact.html">Contact</a>
-            <a href="checkout.html" class="cart-link">🛒 Cart (<span id="cartCount">0</span>)</a>
         </div>
     </nav>
 
     <!-- Header -->
     <div class="page-header">
         <h1>Our Products</h1>
+        <p>Browse our selection and order via WhatsApp</p>
     </div>
 
     <!-- Categories -->
     <div class="container">
         <div class="categories">
-            <button class="cat-btn active" onclick="filterCategory('all')">All</button>
-            <button class="cat-btn" onclick="filterCategory('food')">Food</button>
+            <button class="cat-btn active" onclick="filterCategory('all')">All Products</button>
+            <button class="cat-btn" onclick="filterCategory('food')">Food Items</button>
             <button class="cat-btn" onclick="filterCategory('laundry')">Laundry</button>
             <button class="cat-btn" onclick="filterCategory('beauty')">Beauty</button>
             <button class="cat-btn" onclick="filterCategory('household')">Household</button>
@@ -35,11 +35,46 @@
 
         <!-- Products -->
         <div class="products" id="products"></div>
+
+        <!-- Single Call-to-Action Section -->
+        <div class="cta-section">
+            <div class="cta-card">
+                <h2>Ready to Order?</h2>
+                <p>Click the button below to place your order via WhatsApp. Our team will respond immediately to confirm your items and arrange delivery.</p>
+                
+                <a href="https://wa.me/254700000000?text=Hello%2C%20I%20viewed%20the%20Tricha%20Cereals%20product%20list%20and%20I%20am%20ready%20to%20place%20my%20order%20now." 
+                   class="whatsapp-btn" 
+                   target="_blank">
+                    <span class="whatsapp-icon">💬</span>
+                    Place Your Order on WhatsApp
+                </a>
+
+                <div class="cta-benefits">
+                    <div class="benefit">
+                        <span>✅</span>
+                        <p>Instant Response</p>
+                    </div>
+                    <div class="benefit">
+                        <span>🚚</span>
+                        <p>Same-Day Delivery</p>
+                    </div>
+                    <div class="benefit">
+                        <span>💰</span>
+                        <p>Best Prices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
     <div class="footer">
         <p>© 2025 Tricha Cereals. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://wa.me/254700000000" style="color: white; text-decoration: underline;">
+                WhatsApp: 0700 000 000
+            </a>
+        </p>
     </div>
 
     <script>
@@ -64,7 +99,6 @@
                     <img src="${p.img}" alt="${p.name}">
                     <h3>${p.name}</h3>
                     <p class="price">KES ${p.price}</p>
-                    <button class="btn" onclick="addCart(${p.id})">Add to Cart</button>
                 </div>
             `).join('');
             document.getElementById('products').innerHTML = html;
@@ -77,31 +111,7 @@
             showProducts();
         }
 
-        function addCart(id) {
-            const product = products.find(p => p.id === id);
-            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
-            
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
-            
-            sessionStorage.setItem('cart', JSON.stringify(cart));
-            updateCount();
-            event.target.textContent = 'Added!';
-            setTimeout(() => event.target.textContent = 'Add to Cart', 1000);
-        }
-
-        function updateCount() {
-            const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
-            const count = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cartCount').textContent = count;
-        }
-
         showProducts();
-        updateCount();
     </script>
 </body>
 </html>
